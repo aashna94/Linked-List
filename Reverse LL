@@ -85,7 +85,7 @@ void reverseLL(node *p)
     }
     p=prev;
     cout<<"\nReverse LL: ";
-    reverseLL(p);
+    display(p);
 }
 
 
@@ -103,4 +103,24 @@ int main(int argc, const char * argv[])
     reverseLL(head);
     return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
