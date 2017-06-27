@@ -1,0 +1,143 @@
+
+//
+//  main.cpp
+//  oky
+//
+//  Created by aashna on 20/06/17.
+//  Copyright © 2017 q. All rights reserved.
+//
+
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <stack>
+#include <string>
+#include <climits>
+#include <stdio.h>
+#include <string.h>
+#include <cassert>
+#include <algorithm>
+#include <stack>
+#include <map>
+#include <list>
+#include <set>
+#include <math.h>
+
+using namespace std;
+
+struct node
+{
+    int data;
+    node *next, *random;
+    node(int d)
+    {
+        data=d;
+        next=NULL;
+        random=NULL;
+    }
+}*head=NULL;
+
+/*void insert(int d)
+{
+    node *p=new node();
+    p->data=d;
+    if(head==NULL)
+        head=p;
+    else
+    {
+        node *temp=head;
+        while (temp->next!=NULL)
+        {
+            temp=temp->next;
+        }
+        temp->next=p;
+    }
+     p->next=NULL;
+}*/
+
+void display(node *p)
+{
+    if(p==NULL)
+        return;
+    while (p->next!=NULL)
+    {
+        cout<<p->data<<" ";
+        p=p->next;
+    }
+     cout<<p->data<<" ";
+}
+
+
+int recurseLen(node *p)
+{
+    if(p==NULL)
+        return 0;
+    return 1+recurseLen(p->next);
+}
+
+node * cloneLL(node *p)
+{
+    if(p==NULL)
+        return NULL;
+    node *curr=p;
+    node *temp;
+    while (curr)
+    {
+        temp=curr->next;
+        curr->next=new node(curr->data);
+        curr->next->next=temp;
+        curr=temp;
+    }
+    curr=p;
+    while (curr)
+    {
+        curr->next->random=curr->random->next;
+        curr=curr->next?curr->next->next:curr->next;
+    }
+    node *copy=p->next;
+    node *orig=p;
+    temp=copy;
+    while (orig && copy)
+    {
+        orig->next=orig->next?orig->next->next:orig->next;
+        copy->next=copy->next?copy->next->next:copy->next;
+        orig=orig->next;
+        copy=copy->next;
+    }
+    return temp;
+}
+
+
+int main(int argc, const char * argv[])
+{
+    node* start = new node(1);
+    start->next = new node(2);
+    start->next->next = new node(3);
+    start->next->next->next = new node(4);
+    start->next->next->next->next = new node(5);
+    
+    // 1's random points to 3
+    start->random = start->next->next;
+    
+    // 2's random points to 1
+    start->next->random = start;
+    
+    // 3's and 4's random points to 5
+    start->next->next->random =
+    start->next->next->next->next;
+    start->next->next->next->random =
+    start->next->next->next->next;
+    
+    // 5's random points to 2
+    start->next->next->next->next->random =
+    start->next;
+    
+    cout << "Original list : \n";
+    display(start);
+    
+    cout << "\nCloned list : \n";
+    node *cloned_list = cloneLL(start);
+    display(cloned_list);
+    return 0;
+}
+
