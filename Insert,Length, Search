@@ -1,0 +1,136 @@
+
+//
+//  main.cpp
+//  oky
+//
+//  Created by aashna on 20/06/17.
+//  Copyright © 2017 q. All rights reserved.
+//
+
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <stack>
+#include <string>
+#include <climits>
+#include <stdio.h>
+#include <string.h>
+#include <cassert>
+#include <algorithm>
+#include <stack>
+#include <map>
+#include <list>
+#include <set>
+#include <math.h>
+
+using namespace std;
+
+struct node
+{
+    int data;
+    node *next;
+}*head=NULL;
+
+void insert(int d)
+{
+    node *p=new node();
+    p->data=d;
+    if(head==NULL)
+        head=p;
+    else
+    {
+        node *temp=head;
+        while (temp->next!=NULL)
+        {
+            temp=temp->next;
+        }
+        temp->next=p;
+    }
+     p->next=NULL;
+}
+
+void display(node *p)
+{
+    if(p==NULL)
+        return;
+    while (p->next!=NULL)
+    {
+        cout<<p->data<<" ";
+        p=p->next;
+    }
+     cout<<p->data<<" ";
+}
+
+int iterativeLen(node *p)
+{
+    if(p==NULL)
+        return 0;
+    int cnt=0;
+    while (p->next!=NULL)
+    {
+        cnt++;
+        p=p->next;
+    }
+    return cnt+1;
+}
+
+int recurseLen(node *p)
+{
+    if(p==NULL)
+        return 0;
+    return 1+recurseLen(p->next);
+}
+
+void iterSearch(node *p, int k)
+{
+    if(p==NULL)
+        return;
+    int f=0;
+    while (p!=NULL)
+    {
+        if(p->data==k)
+        {
+            f=1;
+            break;
+        }
+        p=p->next;
+    }
+    if(f==0)
+        cout<<"\nNot Found";
+    else
+        cout<<"\nFound";
+}
+
+bool recuSearch(node *p, int k)
+{
+    if(p==NULL)
+        return false;
+    if(p->data==k)
+        return true;
+    return recuSearch(p->next, k);
+}
+
+
+int main(int argc, const char * argv[])
+{
+    int ele,n,i;
+    cin>>n;
+    for (i=0; i<n ; i++)
+    {
+        cin>>ele;
+        insert(ele);
+    }
+    cout<<"\nDisplay: ";
+    display(head);
+    cout<<"\nIterative length: "<<iterativeLen(head);
+    cout<<"\nRecursive Length: "<<recurseLen(head);
+    cin>>ele;
+    cout<<"\nIterative Search: ";
+    iterSearch(head, ele);
+    cout<<"\nRecursive Search: ";
+    if(recuSearch(head, ele))
+        cout<<"\nFound";
+    else
+        cout<<"\nNot Found";
+    return 0;
+}
