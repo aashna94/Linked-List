@@ -1,0 +1,108 @@
+
+//
+//  main.cpp
+//  oky
+//
+//  Created by aashna on 20/06/17.
+//  Copyright © 2017 q. All rights reserved.
+//
+
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <stack>
+#include <string>
+#include <climits>
+#include <stdio.h>
+#include <string.h>
+#include <cassert>
+#include <algorithm>
+#include <stack>
+#include <map>
+#include <list>
+#include <set>
+#include <math.h>
+
+using namespace std;
+
+struct node
+{
+    int data;
+    node *next;
+}*head=NULL;
+
+void insert(int d)
+{
+    node *p=new node();
+    p->data=d;
+    if(head==NULL)
+        head=p;
+    else
+    {
+        node *temp=head;
+        while (temp->next!=NULL)
+        {
+            temp=temp->next;
+        }
+        temp->next=p;
+    }
+     p->next=NULL;
+}
+
+void display(node *p)
+{
+    if(p==NULL)
+        return;
+    while (p->next!=NULL)
+    {
+        cout<<p->data<<" ";
+        p=p->next;
+    }
+     cout<<p->data<<" ";
+}
+
+
+int recurseLen(node *p)
+{
+    if(p==NULL)
+        return 0;
+    return 1+recurseLen(p->next);
+}
+
+void deleteAlternate(node *p)
+{
+    if(p==NULL || p->next==NULL)
+        return;
+    node *prev=p;
+    node *nxt=p->next;
+    while (prev!=NULL && nxt!=NULL)
+    {
+        prev->next=nxt->next;
+        delete nxt;
+        prev=prev->next;
+        if(prev!=NULL)
+            nxt=prev->next;
+    }
+    cout<<"\nNew List: ";
+    display(p);
+}
+
+int main(int argc, const char * argv[])
+{
+    int ele,n,i;
+    cin>>n;
+    for (i=0; i<n ; i++)
+    {
+        cin>>ele;
+        insert(ele);
+    }
+    
+    cout<<"\nDisplay: ";
+    display(head);
+    deleteAlternate(head);
+   
+    
+    return 0;
+}
+
+
